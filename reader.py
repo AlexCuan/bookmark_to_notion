@@ -1,8 +1,6 @@
-import PyQt5.QtWidgets as qtw
-import PyQt5.QtGui as qtg
-import ebooklib
 from ebooklib import epub
 from bs4 import BeautifulSoup
+import ebooklib
 
 BOOK_NAME = "Enfocate"
 
@@ -70,34 +68,3 @@ def epub2text(epub_path: str) -> str:
 
 
 ebook_text = epub2text('./enfocate.epub')
-
-
-class MainWindow(qtw.QWidget):
-    def __init__(self):
-        super().__init__()
-        # Set window title based on ebook's name
-        self.setWindowTitle(BOOK_NAME)
-
-        self.setMinimumSize(640, 480)
-
-        self.setLayout(qtw.QVBoxLayout())
-
-        # Ebook's name
-        my_label = qtw.QLabel(BOOK_NAME)
-        my_label.setFont(qtg.QFont('Arial', 20))
-
-        # Widget for reading the ebook
-        text_browser = qtw.QTextBrowser()
-        text_browser.setText(ebook_text)
-
-        self.layout().addWidget(my_label)
-        self.layout().addWidget(text_browser)
-        self.show()
-
-app = qtw.QApplication([])
-
-mw = MainWindow()
-
-# Run the app
-
-app.exec_()
