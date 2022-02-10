@@ -5,7 +5,13 @@ from ebooklib import epub
 from bs4 import BeautifulSoup
 
 
-def epub2thtml(epub_path):
+
+def epub2thtml(epub_path: str) -> list:
+    """
+    Read the epub and extract readable items
+    :param epub_path:
+    :return: List containing chapters content(in html)
+    """
     book = epub.read_epub(epub_path)
     chapters = []
     for item in book.get_items():
@@ -27,9 +33,14 @@ blacklist = [
 ]
 
 
-def chap2text(chap):
+def chap2text(chap: str) -> str:
+    """
+    Parse the html and return a clean list of content
+    :param chap:
+    :return: str
+    """
     output = ''
-    soup = BeautifulSoup(chap, 'lxml')
+    soup = BeautifulSoup(chap, 'html.parser')
     text = soup.find_all(text=True)
     for t in text:
         if t.parent.name not in blacklist:
@@ -37,15 +48,21 @@ def chap2text(chap):
     return output
 
 
-def thtml2ttext(thtml):
-    Output = []
+def thtml2ttext(thtml: list) -> str:
+    """
+    Iterate over the chapter's list, parse it and append clean text into an str
+    :param thtml: List of raw html
+    :return: Clean text ready for reading
+    """
+    # Output = []
+    text = ""
     for html in thtml:
-        text = chap2text(html)
-        Output.append(text)
-    return Output
+        text += chap2text(html)
+        # Output.append(text)
+    return text
 
 
-def epub2text(epub_path):
+def epub2text(epub_path: str) -> str:
     chapters = epub2thtml(epub_path)
     ttext = thtml2ttext(chapters)
     return ttext
