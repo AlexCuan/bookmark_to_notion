@@ -4,6 +4,7 @@ import ebooklib
 from ebooklib import epub
 from bs4 import BeautifulSoup
 
+BOOK_NAME = "Enfocate"
 
 
 def epub2thtml(epub_path: str) -> list:
@@ -68,56 +69,26 @@ def epub2text(epub_path: str) -> str:
     return ttext
 
 
-out = epub2text('./enfocate.epub')
+ebook_text = epub2text('./enfocate.epub')
 
-
-# class Ui_MainWindow(object):
-#     def setupUi(self, MainWindow):
-#         MainWindow.setObjectName("MainWindow")
-#         MainWindow.resize(800, 600)
-#         self.centralwidget = QtWidgets.QWidget(MainWindow)
-#         self.centralwidget.setObjectName("centralwidget")
-#         self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget,)
-#         self.textBrowser.setGeometry(QtCore.QRect(10, 10, 681, 531))
-#         self.textBrowser.setObjectName("textBrowser")
-#         self.textBrowser.setText(str(out))
-#         MainWindow.setCentralWidget(self.centralwidget)
-#         self.menubar = QtWidgets.QMenuBar(MainWindow)
-#         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 22))
-#         self.menubar.setObjectName("menubar")
-#         MainWindow.setMenuBar(self.menubar)
-#         self.statusbar = QtWidgets.QStatusBar(MainWindow)
-#         self.statusbar.setObjectName("statusbar")
-#         MainWindow.setStatusBar(self.statusbar)
-#
-#         MainWindow.layout().addWidget( self.textBrowser)
-#         self.retranslateUi(MainWindow)
-#         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-#
-#     def retranslateUi(self, MainWindow):
-#         _translate = QtCore.QCoreApplication.translate
-#         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-#
-#
-# if __name__ == "__main__":
-#     import sys
-#     app = QtWidgets.QApplication(sys.argv)
-#     MainWindow = QtWidgets.QMainWindow()
-#     ui = Ui_MainWindow()
-#     ui.setupUi(MainWindow)
-#     MainWindow.show()
-#     sys.exit(app.exec_())
 
 class MainWindow(qtw.QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Hello world")
+        # Set window title based on ebook's name
+        self.setWindowTitle(BOOK_NAME)
+
+        self.setMinimumSize(640, 480)
+
         self.setLayout(qtw.QVBoxLayout())
 
-        my_label = qtw.QLabel("Enfocate")
+        # Ebook's name
+        my_label = qtw.QLabel(BOOK_NAME)
+        my_label.setFont(qtg.QFont('Arial', 20))
 
+        # Widget for reading the ebook
         text_browser = qtw.QTextBrowser()
-        text_browser.setText(str(out))
+        text_browser.setText(ebook_text)
 
         self.layout().addWidget(my_label)
         self.layout().addWidget(text_browser)
