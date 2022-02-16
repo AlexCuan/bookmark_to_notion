@@ -2,7 +2,6 @@ from ebooklib import epub
 from bs4 import BeautifulSoup
 import ebooklib
 
-BOOK_NAME = "Enfocate"
 
 
 def epub2thtml(epub_path: str) -> list:
@@ -67,4 +66,3 @@ def epub2text(epub_path: str) -> str:
     return ttext
 
 
-ebook_text = epub2text('./enfocate.epub')
