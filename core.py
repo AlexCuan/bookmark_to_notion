@@ -1,6 +1,6 @@
 import visual
 
-mw = visual.MainWindow()
+UIWindow = visual.Ui()
 
 # Run the app
 
