@@ -1,28 +1,31 @@
 import PyQt5.QtWidgets as qtw
 import PyQt5.QtGui as qtg
+from PyQt5 import uic
 import reader
 
 
-class MainWindow(qtw.QWidget):
+class Ui(qtw.QMainWindow):
     def __init__(self):
-        super().__init__()
-        # Set window title based on ebook's name
-        self.setWindowTitle(reader.BOOK_NAME)
+        super(Ui, self).__init__()
 
-        self.setMinimumSize(640, 480)
+        # Load Ui
+        uic.loadUi('loader.ui', self)
 
-        self.setLayout(qtw.QVBoxLayout())
+        # Define widgets
+        self.setWindowTitle("Lector")
+        self.textBrowser = self.findChild(qtw.QTextBrowser, "textBrowser")
+        self.menu = self.findChild(qtw.QMenu, "menuMenu")
+        self.openArchive = self.findChild(qtw.QAction, "openArchive")
+        self.openArchive.triggered.connect(self.open_file)
 
-        # Ebook's name
-        my_label = qtw.QLabel(reader.BOOK_NAME)
-        my_label.setFont(qtg.QFont('Arial', 20))
-
-        # Widget for reading the ebook
-        text_browser = qtw.QTextBrowser()
-        text_browser.setText(reader.ebook_text)
-
-        self.layout().addWidget(my_label)
-        self.layout().addWidget(text_browser)
         self.show()
+
+    def open_file(self):
+        ebook_name = qtw.QFileDialog.getOpenFileName(self, "Open file", "", "Epub Files(*.epub)")
+        if ebook_name:
+            self.textBrowser.setText(reader.epub2text(ebook_name[0]))
+
+        # self.setWindowTitle(ebook_name[0])
+
 
 app = qtw.QApplication([])
